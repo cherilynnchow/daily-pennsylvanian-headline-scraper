@@ -26,11 +26,17 @@ def scrape_data_point():
 
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
-        sports_article = soup.find("a", class_="frontpage-link medium-link font-regular")
-        data_point = "" if sports_article is None else sports_article.text
+        divs = soup.find_all('div', class_='col-sm-6')
+        data_point = ""
+        for div in divs:
+            heading =  div.find("h3", class_="frontpage-section")
+            if 'Opinion' in heading.text:
+                article_title = soup.find("a", class_="frontpage-link medium-link font-regular")
+                data_point = "" if article_title is None else article_title.text
+            else: 
+                data_point = ""
         loguru.logger.info(f"Data point: {data_point}")
         return data_point
-
 
 if __name__ == "__main__":
 
@@ -48,7 +54,7 @@ if __name__ == "__main__":
     # Load daily event monitor
     loguru.logger.info("Loading daily event monitor")
     dem = daily_event_monitor.DailyEventMonitor(
-        "data/daily_pennsylvanian_top_sports_headline.json"
+        "data/daily_pennsylvanian_top_opinion_headline.json"
     )
 
     # Run scrape
