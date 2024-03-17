@@ -26,7 +26,8 @@ def scrape_data_point():
 
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
-        divs = soup.find_all('div', class_='col-sm-6')
+        overall_div = soup.find_all('div', class_='row homepage-row')
+        divs = overall_div.find_all('div', class_='col-sm-6')
         data_point = ""
         for div in divs:
             heading =  div.find("h3", class_="frontpage-section")
@@ -37,8 +38,8 @@ def scrape_data_point():
                     data_point = "" if article_title is None else article_title.text
                 else: 
                     data_point = ""
-            else:
-                data_point = ""
+        else:
+            data_point = ""
         loguru.logger.info(f"Data point: {data_point}")
         return data_point
 
