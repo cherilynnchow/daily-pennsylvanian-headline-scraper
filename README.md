@@ -1,3 +1,44 @@
+# Changes Made to the Basic Git Scraper Template
+
+At the time that I created this scraper, I changed the script.py file around to find the top headlines from the “Featured”, “News”, “Sports”, and “Opinion” sections on the homepage. This is accessible to view through the "data" directory of this repo. Currently, my scraper finds the top headline in the Opinions section of the homepage. I wanted to be able to find the top headline in the Opinions section so I had to specify whether or not the heading of the section was "Opinions". This is because the Opinions section comes after the Sports section and both have very similar classes/HTML structure. Thus, the code to find the top headline in the Opnions section is much more complex compared to the others.
+
+To find the top "featured" headline, change lines 29 and 30 of script.py to:
+    featured_article = soup.find("a", class_="frontpage-link standard-link")
+    data_point = "" if featured_article is None else featured_article.text
+and line 51 to:
+    "data/daily_pennsylvanian_top_featured_headline.json"
+
+To find the top "News" headline, change lines 29 and 30 of script.py to:
+    news_article = soup.find("a", class_="newstop")
+    data_point = "" if news_article is None else news_article.text
+and line 51 to:
+    "data/daily_pennsylvanian_top_news_headline.json"
+
+To find the top "Sports" headline, change lines 29 and 30 of script.py to:
+    sports_article = soup.find("a", class_="frontpage-link medium-link font-regular")
+    data_point = "" if sports_article is None else sports_article.text
+and line 51 to:
+    "data/daily_pennsylvanian_top_sports_headline.json"
+
+To find the top "Opinions" headline, change lines 29 and 30 of script.py to:
+    soup = bs4.BeautifulSoup(req.text, "html.parser")
+            overall_div = soup.find('div', class_='row homepage-row')
+            divs = overall_div.find_all('div', class_='col-sm-6')
+            data_point = ""
+            for div in divs:
+                heading =  div.find("h3", class_="frontpage-section")
+                if heading is not None:
+                    heading_title = heading.find("a")
+                    if 'Opinion' in heading_title.text:
+                        article_title = div.find("a", class_="frontpage-link medium-link font-regular")
+                        data_point = "" if article_title is None else article_title.text
+                    else: 
+                        data_point = ""
+                else:
+                    data_point = ""
+and line 51 to:
+    "data/daily_pennsylvanian_top_opinion_headline.json"
+
 # Basic Git Scraper Template
 
 This template provides a starting point for **git scraping**—the technique of scraping data from websites and automatically committing it to a Git repository using workflows, [coined by Simon Willison](https://simonwillison.net/2020/Oct/9/git-scraping/).
