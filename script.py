@@ -26,8 +26,8 @@ def scrape_data_point():
 
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
-        news_article = soup.find("a", class_="newstop")
-        data_point = "" if news_article is None else news_article.text
+        sports_article = soup.find("a", class_="frontpage-link medium-link font-regular")
+        data_point = "" if sports_article is None else sports_article.text
         loguru.logger.info(f"Data point: {data_point}")
         return data_point
 
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     # Load daily event monitor
     loguru.logger.info("Loading daily event monitor")
     dem = daily_event_monitor.DailyEventMonitor(
-        "data/daily_pennsylvanian_top_news_headline.json"
+        "data/daily_pennsylvanian_top_sports_headline.json"
     )
 
     # Run scrape
