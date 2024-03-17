@@ -30,11 +30,14 @@ def scrape_data_point():
         data_point = ""
         for div in divs:
             heading =  div.find("h3", class_="frontpage-section")
-            heading_title = heading.find("a")
-            if 'Opinion' in heading_title.text:
-                article_title = div.find("a", class_="frontpage-link medium-link font-regular")
-                data_point = "" if article_title is None else article_title.text
-            else: 
+            if heading is not None:
+                heading_title = heading.find("a")
+                if 'Opinion' in heading_title.text:
+                    article_title = div.find("a", class_="frontpage-link medium-link font-regular")
+                    data_point = "" if article_title is None else article_title.text
+                else: 
+                    data_point = ""
+            else:
                 data_point = ""
         loguru.logger.info(f"Data point: {data_point}")
         return data_point
