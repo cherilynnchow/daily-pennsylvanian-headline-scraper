@@ -37,9 +37,9 @@ def scrape_data_point():
                     article_title = div.find("a", class_="frontpage-link medium-link font-regular")
                     data_point = "" if article_title is None else article_title.text
                 else: 
-                    data_point = ""
-        else:
-            data_point = ""
+                    data_point = "hiii"
+            else:
+                data_point = "hi"
         loguru.logger.info(f"Data point: {data_point}")
         return data_point
 
