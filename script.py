@@ -26,7 +26,7 @@ def scrape_data_point():
 
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
-        overall_div = soup.find_all('div', class_='row homepage-row')
+        overall_div = soup.find('div', class_='row homepage-row')
         divs = overall_div.find_all('div', class_='col-sm-6')
         data_point = ""
         for div in divs:
